@@ -14,6 +14,11 @@ const router = createRouter({
       name: 'snake',
       component: () => import('../components/games/SnakeGame.vue'),
     },
+    {
+      path: '/game/memory',
+      name: 'memory',
+      component: () => import('../components/games/MemoryGame.vue'),
+    },
   ],
 })
 
