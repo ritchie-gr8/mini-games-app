@@ -327,13 +327,18 @@ onUnmounted(() => {
 
 <template>
   <div class="flex flex-col items-center gap-4 py-8 px-4">
-    <h2 class="text-2xl font-bold">Tetris</h2>
+    <h2
+      class="text-3xl font-black text-black rotate-1 transform"
+      style="text-shadow: 3px 3px 0 #ff00aa"
+    >
+      Tetris
+    </h2>
 
     <!-- Game controls -->
     <div class="flex gap-4 mb-4">
       <button
         @click="startGame"
-        class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+        class="px-6 py-3 bg-yellow-400 text-black font-bold rounded-lg border-4 border-black transform rotate-1 hover:translate-y-1 transition-transform shadow-[6px_6px_0_0_rgba(0,0,0,1)]"
       >
         {{ isGameStarted ? 'Restart' : 'Start Game' }}
       </button>
@@ -342,29 +347,35 @@ onUnmounted(() => {
     <!-- Game instructions -->
     <div
       v-if="!isGameStarted"
-      class="hidden sm:block mt-4 text-center text-gray-600 dark:text-gray-400 text-sm"
+      class="hidden sm:block mt-4 text-center text-black dark:text-white text-sm font-bold"
     >
-      <p>Press Start to begin the game</p>
-      <p class="mt-2">Controls:</p>
-      <p>← → : Move left/right</p>
-      <p>↓ : Move down</p>
-      <p>↑ : Rotate</p>
-      <p>Space : Hard drop</p>
+      <p class="rotate-1 transform">Press Start to begin the game</p>
+      <p class="mt-2 -rotate-1 transform">Controls:</p>
+      <p class="rotate-1 transform">← → : Move left/right</p>
+      <p class="-rotate-1 transform">↓ : Move down</p>
+      <p class="rotate-1 transform">↑ : Rotate</p>
+      <p class="-rotate-1 transform">Space : Hard drop</p>
     </div>
 
     <!-- Game stats -->
     <div class="flex gap-6 text-center">
-      <div>
-        <div class="text-sm text-gray-600 dark:text-gray-400">Score</div>
-        <div class="font-mono text-lg">{{ score }}</div>
+      <div
+        class="bg-pink-400 p-3 border-4 border-black rounded-lg shadow-[4px_4px_0_0_rgba(0,0,0,1)] rotate-1 transform"
+      >
+        <div class="text-sm text-black font-bold">Score</div>
+        <div class="font-mono text-lg font-black">{{ score }}</div>
       </div>
-      <div>
-        <div class="text-sm text-gray-600 dark:text-gray-400">Level</div>
-        <div class="font-mono text-lg">{{ level }}</div>
+      <div
+        class="bg-cyan-400 p-3 border-4 border-black rounded-lg shadow-[4px_4px_0_0_rgba(0,0,0,1)] -rotate-1 transform"
+      >
+        <div class="text-sm text-black font-bold">Level</div>
+        <div class="font-mono text-lg font-black">{{ level }}</div>
       </div>
-      <div>
-        <div class="text-sm text-gray-600 dark:text-gray-400">Lines</div>
-        <div class="font-mono text-lg">{{ linesCleared }}</div>
+      <div
+        class="bg-green-400 p-3 border-4 border-black rounded-lg shadow-[4px_4px_0_0_rgba(0,0,0,1)] rotate-2 transform"
+      >
+        <div class="text-sm text-black font-bold">Lines</div>
+        <div class="font-mono text-lg font-black">{{ linesCleared }}</div>
       </div>
     </div>
 
@@ -372,8 +383,11 @@ onUnmounted(() => {
     <div v-if="isGameStarted" class="flex gap-8 items-start">
       <!-- Hold Piece -->
       <div class="text-center">
-        <div class="text-sm mb-2">Hold</div>
-        <div class="border-2 border-gray-400 p-2" style="width: 100px; height: 100px">
+        <div class="text-sm mb-2 font-bold">Hold</div>
+        <div
+          class="border-4 border-black bg-purple-200 dark:bg-purple-800 p-2 shadow-[5px_5px_0_0_rgba(0,0,0,1)] rotate-1 transform"
+          style="width: 100px; height: 100px"
+        >
           <div v-if="holdPiece" class="relative w-full h-full mt-4">
             <div
               v-for="(row, y) in holdPiece.shape"
@@ -390,7 +404,7 @@ onUnmounted(() => {
                 v-for="(cell, x) in row"
                 :key="`hold-cell-${x}-${y}`"
                 :class="
-                  cell !== EMPTY_CELL ? `${holdPiece.color} border border-gray-200` : 'border-none'
+                  cell !== EMPTY_CELL ? `${holdPiece.color} border-2 border-black` : 'border-none'
                 "
                 style="width: 25%; height: 25%"
               ></div>
@@ -401,7 +415,7 @@ onUnmounted(() => {
 
       <!-- Game board -->
       <div
-        class="relative border-2 border-gray-400 dark:border-gray-600 bg-gray-100 dark:bg-gray-800 focus:outline-none"
+        class="relative border-4 border-black dark:border-black bg-gray-100 dark:bg-gray-800 focus:outline-none shadow-[8px_8px_0_0_rgba(0,0,0,1)] transform"
         :style="`width: ${GRID_WIDTH * CELL_SIZE}px; height: ${GRID_HEIGHT * CELL_SIZE}px;`"
         tabindex="0"
         ref="gameBoard"
@@ -411,7 +425,7 @@ onUnmounted(() => {
           <div
             v-for="(cell, x) in row"
             :key="`cell-${x}-${y}`"
-            class="border border-gray-200 dark:border-gray-700"
+            class="border border-black"
             :class="
               cell !== EMPTY_CELL
                 ? TETROMINOS[Object.keys(TETROMINOS)[cell - 1]].color
@@ -435,7 +449,9 @@ onUnmounted(() => {
             <div
               v-for="(cell, x) in row"
               :key="`ghost-cell-${x}-${y}`"
-              :class="cell !== EMPTY_CELL ? [ghostPosition.color, 'border border-black/20'] : ''"
+              :class="
+                cell !== EMPTY_CELL ? [ghostPosition.color, 'border-2 border-black opacity-50'] : ''
+              "
               :style="`
               width: ${CELL_SIZE}px;
               height: ${CELL_SIZE}px;
@@ -456,7 +472,7 @@ onUnmounted(() => {
             <div
               v-for="(cell, x) in row"
               :key="`piece-cell-${x}-${y}`"
-              :class="cell !== EMPTY_CELL ? currentPiece.color : ''"
+              :class="cell !== EMPTY_CELL ? [currentPiece.color, 'border-2 border-black'] : ''"
               :style="`
             width: ${CELL_SIZE}px;
             height: ${CELL_SIZE}px;
@@ -469,14 +485,16 @@ onUnmounted(() => {
         <!-- Game over overlay -->
         <div
           v-if="isGameOver"
-          class="absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center"
+          class="absolute inset-0 bg-black bg-opacity-80 flex items-center justify-center border-4 border-black"
         >
-          <div class="text-white text-center p-4">
-            <h3 class="text-xl font-bold mb-2">Game Over</h3>
-            <p>Score: {{ score }}</p>
+          <div
+            class="text-white text-center p-6 bg-red-500 border-4 border-black shadow-[6px_6px_0_0_rgba(0,0,0,1)] rotate-2 transform"
+          >
+            <h3 class="text-2xl font-black mb-2">Game Over</h3>
+            <p class="font-bold">Score: {{ score }}</p>
             <button
               @click="startGame"
-              class="mt-4 px-4 py-2 bg-green-500 rounded hover:bg-green-600"
+              class="mt-4 px-6 py-3 bg-yellow-400 text-black font-bold rounded-lg border-4 border-black hover:translate-y-1 transition-transform shadow-[4px_4px_0_0_rgba(0,0,0,1)]"
             >
               Play Again
             </button>
@@ -486,8 +504,11 @@ onUnmounted(() => {
 
       <!-- Next Piece -->
       <div class="text-center flex flex-col items-center">
-        <div class="text-sm mb-2">Next</div>
-        <div class="border-2 border-gray-400 p-2" style="width: 100px; height: 100px">
+        <div class="text-sm mb-2 font-bold">Next</div>
+        <div
+          class="border-4 border-black bg-orange-200 dark:bg-orange-800 p-2 shadow-[5px_5px_0_0_rgba(0,0,0,1)] -rotate-1 transform"
+          style="width: 100px; height: 100px"
+        >
           <div v-if="nextPiece" class="relative w-full h-full mt-4">
             <div
               v-for="(row, y) in nextPiece.shape"
@@ -504,7 +525,7 @@ onUnmounted(() => {
                 v-for="(cell, x) in row"
                 :key="`next-cell-${x}-${y}`"
                 :class="
-                  cell !== EMPTY_CELL ? `${nextPiece.color} border border-gray-200` : 'border-none'
+                  cell !== EMPTY_CELL ? `${nextPiece.color} border-2 border-black` : 'border-none'
                 "
                 style="width: 25%; height: 25%"
               ></div>
@@ -516,13 +537,38 @@ onUnmounted(() => {
     <!-- Mobile controls -->
     <div class="grid grid-cols-3 gap-2 w-48 mt-4 md:hidden">
       <div></div>
-      <button @click="rotatePiece" class="p-2 bg-gray-200 dark:bg-gray-700 rounded">↻</button>
+      <button
+        @click="rotatePiece"
+        class="p-3 bg-pink-400 text-black font-bold rounded border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-y-1 transition-transform"
+      >
+        ↻
+      </button>
       <div></div>
-      <button @click="moveLeft" class="p-2 bg-gray-200 dark:bg-gray-700 rounded">←</button>
-      <button @click="hardDrop" class="p-2 bg-gray-200 dark:bg-gray-700 rounded">↓↓</button>
-      <button @click="moveRight" class="p-2 bg-gray-200 dark:bg-gray-700 rounded">→</button>
+      <button
+        @click="moveLeft"
+        class="p-3 bg-blue-400 text-black font-bold rounded border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-y-1 transition-transform"
+      >
+        ←
+      </button>
+      <button
+        @click="hardDrop"
+        class="p-3 bg-yellow-400 text-black font-bold rounded border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-y-1 transition-transform"
+      >
+        ↓↓
+      </button>
+      <button
+        @click="moveRight"
+        class="p-3 bg-green-400 text-black font-bold rounded border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-y-1 transition-transform"
+      >
+        →
+      </button>
       <div></div>
-      <button @click="moveDown" class="p-2 bg-gray-200 dark:bg-gray-700 rounded">↓</button>
+      <button
+        @click="moveDown"
+        class="p-3 bg-purple-400 text-black font-bold rounded border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-y-1 transition-transform"
+      >
+        ↓
+      </button>
       <div></div>
     </div>
   </div>
@@ -537,6 +583,35 @@ onUnmounted(() => {
 .preview-cell {
   width: 25%;
   height: 25%;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 2px solid black;
+}
+
+.bg-cyan-400 {
+  background-color: #22d3ee;
+}
+
+.bg-red-500 {
+  background-color: #ff3e3e;
+}
+.bg-orange-500 {
+  background-color: #ff7a00;
+}
+.bg-yellow-500 {
+  background-color: #ffdc00;
+}
+.bg-green-500 {
+  background-color: #00cc66;
+}
+.bg-blue-500 {
+  background-color: #0099ff;
+}
+.bg-indigo-500 {
+  background-color: #5d00ff;
+}
+.bg-purple-500 {
+  background-color: #9900ff;
+}
+.bg-pink-500 {
+  background-color: #ff00aa;
 }
 </style>

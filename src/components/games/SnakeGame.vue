@@ -144,19 +144,24 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col items-center gap-4">
-    <h2 class="text-xl font-semibold mt-16">Snake</h2>
+  <div class="flex flex-col items-center gap-6 py-8">
+    <h2
+      class="text-3xl font-black text-black transform -rotate-2"
+      style="text-shadow: 3px 3px 0 #ff00aa"
+    >
+      SNAKE GAME
+    </h2>
 
     <div
       ref="gameBoard"
-      class="border-2 border-gray-400 dark:border-gray-600 relative"
+      class="bg-white border-4 border-black shadow-[8px_8px_0_0_rgba(0,0,0,1)] relative"
       :style="`width: ${boardSize}px; height: ${boardSize}px;`"
     >
       <!-- Snake segments -->
       <div
         v-for="(segment, index) in snake"
         :key="index"
-        class="absolute bg-green-500 rounded-sm"
+        class="absolute bg-green-600 border-3 border-black shadow-[3px_3px_0_0_rgba(0,0,0,1)]"
         :style="`
           width: ${cellSize - 2}px;
           height: ${cellSize - 2}px;
@@ -167,7 +172,7 @@ onUnmounted(() => {
 
       <!-- Food -->
       <div
-        class="absolute bg-red-500 rounded-full"
+        class="absolute bg-red-500 border-3 border-black rounded-full shadow-[3px_3px_0_0_rgba(0,0,0,1)]"
         :style="`
           width: ${cellSize - 2}px;
           height: ${cellSize - 2}px;
@@ -177,32 +182,50 @@ onUnmounted(() => {
       ></div>
     </div>
 
-    <div class="flex items-center gap-4">
-      <div class="text-lg">Score: {{ score }}</div>
+    <div class="flex items-center gap-6">
+      <div
+        class="bg-yellow-400 px-4 py-2 border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] rotate-1"
+      >
+        <span class="font-black text-xl">SCORE: {{ score }}</span>
+      </div>
       <button
         @click="startGame"
-        class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+        class="px-6 py-2 bg-yellow-400 text-black font-bold rounded border-4 border-black transform rotate-1 hover:translate-y-1 transition-transform shadow-[5px_5px_0_0_rgba(0,0,0,1)]"
       >
-        {{ isRunning ? 'Restart' : 'Start' }}
+        {{ isRunning ? 'RESTART' : 'START' }}
       </button>
     </div>
 
     <!-- Mobile controls -->
-    <div class="grid grid-cols-3 gap-2 w-48 mt-4 md:hidden">
+    <div
+      class="grid grid-cols-3 gap-3 w-64 mt-4 md:hidden p-4 bg-pink-200 border-4 border-black shadow-[6px_6px_0_0_rgba(0,0,0,1)]"
+    >
       <div></div>
-      <button @click="changeDirection('up')" class="p-2 bg-gray-200 dark:bg-gray-700 rounded">
+      <button
+        @click="changeDirection('up')"
+        class="p-3 bg-pink-400 border-3 border-black shadow-[3px_3px_0_0_rgba(0,0,0,1)] hover:translate-y-1 transform rotate-1"
+      >
         ↑
       </button>
       <div></div>
-      <button @click="changeDirection('left')" class="p-2 bg-gray-200 dark:bg-gray-700 rounded">
+      <button
+        @click="changeDirection('left')"
+        class="p-3 bg-pink-400 border-3 border-black shadow-[3px_3px_0_0_rgba(0,0,0,1)] hover:translate-y-1 transform -rotate-1"
+      >
         ←
       </button>
       <div></div>
-      <button @click="changeDirection('right')" class="p-2 bg-gray-200 dark:bg-gray-700 rounded">
+      <button
+        @click="changeDirection('right')"
+        class="p-3 bg-pink-400 border-3 border-black shadow-[3px_3px_0_0_rgba(0,0,0,1)] hover:translate-y-1 transform rotate-2"
+      >
         →
       </button>
       <div></div>
-      <button @click="changeDirection('down')" class="p-2 bg-gray-200 dark:bg-gray-700 rounded">
+      <button
+        @click="changeDirection('down')"
+        class="p-3 bg-pink-400 border-3 border-black shadow-[3px_3px_0_0_rgba(0,0,0,1)] hover:translate-y-1 transform -rotate-2"
+      >
         ↓
       </button>
       <div></div>

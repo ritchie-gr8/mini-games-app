@@ -150,74 +150,84 @@ watch(difficulty, () => {
 
 <template>
   <div class="flex flex-col items-center gap-4 py-8 px-4">
-    <h2 class="text-2xl font-bold">Emoji Memory Match</h2>
-
+    <h2
+      class="text-3xl font-black text-black transform -rotate-1"
+      style="text-shadow: 3px 3px 0 #ff00aa"
+    >
+      Emoji Memory Match
+    </h2>
     <!-- Game controls -->
-    <div class="flex flex-wrap justify-center gap-3 w-full mb-2">
+    <div class="flex flex-wrap justify-center gap-3 w-full mb-4">
       <div class="flex gap-2">
         <button
           v-for="(config, key) in difficulties"
           :key="key"
           @click="changeDifficulty(key)"
-          class="px-3 py-1 rounded text-sm"
+          class="px-4 py-2 rounded font-bold text-black border-3 border-black transform transition-transform hover:translate-y-1"
           :class="
             difficulty === key
-              ? 'bg-blue-500 text-white'
-              : 'bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600'
+              ? 'bg-pink-400 shadow-[4px_4px_0_0_rgba(0,0,0,1)] rotate-1'
+              : 'bg-gray-200 dark:bg-gray-200 shadow-[3px_3px_0_0_rgba(0,0,0,1)] -rotate-1'
           "
         >
           {{ config.name }}
         </button>
       </div>
-
       <button
         @click="startGame"
-        class="px-4 py-1 bg-green-500 text-white rounded hover:bg-green-600"
+        class="px-6 py-2 bg-yellow-400 text-black font-bold rounded border-4 border-black transform rotate-1 hover:translate-y-1 transition-transform shadow-[5px_5px_0_0_rgba(0,0,0,1)]"
       >
         {{ isGameStarted && !isGameComplete ? 'Restart' : 'Start Game' }}
       </button>
     </div>
-
     <!-- Game stats -->
     <div class="flex gap-6 text-center">
-      <div>
-        <div class="text-sm text-gray-600 dark:text-gray-400">Time</div>
-        <div class="font-mono text-lg">{{ formattedTime }}</div>
+      <div
+        class="bg-cyan-400 p-3 border-4 border-black rounded shadow-[4px_4px_0_0_rgba(0,0,0,1)] rotate-1 transform"
+      >
+        <div class="text-sm text-black font-bold">Time</div>
+        <div class="font-mono text-lg font-black">{{ formattedTime }}</div>
       </div>
-      <div>
-        <div class="text-sm text-gray-600 dark:text-gray-400">Moves</div>
-        <div class="font-mono text-lg">{{ moves }}</div>
+      <div
+        class="bg-green-400 p-3 border-4 border-black rounded shadow-[4px_4px_0_0_rgba(0,0,0,1)] -rotate-1 transform"
+      >
+        <div class="text-sm text-black font-bold">Moves</div>
+        <div class="font-mono text-lg font-black">{{ moves }}</div>
       </div>
-      <div>
-        <div class="text-sm text-gray-600 dark:text-gray-400">Pairs</div>
-        <div class="font-mono text-lg">
+      <div
+        class="bg-orange-400 p-3 border-4 border-black rounded shadow-[4px_4px_0_0_rgba(0,0,0,1)] rotate-2 transform"
+      >
+        <div class="text-sm text-black font-bold">Pairs</div>
+        <div class="font-mono text-lg font-black">
           {{ matchedPairs.length }} / {{ Math.floor((gridSize * gridSize) / 2) }}
         </div>
       </div>
     </div>
-
     <!-- Game board -->
     <div
-      class="grid gap-1 bg-gray-100 dark:bg-gray-800 p-2 rounded border-2 border-gray-300 dark:border-gray-700"
+      class="grid gap-2 bg-blue-200 dark:bg-blue-800 p-4 rounded border-4 border-black shadow-[8px_8px_0_0_rgba(0,0,0,1)] transform"
       :style="{
         gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))`,
-        width: '340px',
-        height: '340px',
+        width: '360px',
+        height: '380px',
       }"
     >
       <div
         v-for="(card, index) in cards"
         :key="index"
         @click="flipCard(index)"
-        class="flex items-center justify-center cursor-pointer transition-all duration-300 transform"
+        class="flex items-center justify-center cursor-pointer transition-all duration-300 transform border-3 border-black"
         :class="{
-          'bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600':
+          'bg-white dark:bg-purple-200 shadow-[3px_3px_0_0_rgba(0,0,0,1)]':
             !card.isFlipped && !card.isMatched,
-          'bg-blue-100 dark:bg-blue-900 border border-blue-300 dark:border-blue-700':
+          'bg-pink-400 dark:bg-pink-400 shadow-[2px_2px_0_0_rgba(0,0,0,1)]':
             card.isFlipped && !card.isMatched,
-          'bg-green-100 dark:bg-green-900 border border-green-300 dark:border-green-700 opacity-70':
-            card.isMatched,
-          'hover:shadow-md': !card.isMatched && isGameStarted && !isGameComplete,
+          'bg-green-400 dark:bg-green-400 border-dashed': card.isMatched,
+          'hover:translate-y-1 hover:shadow-[2px_2px_0_0_rgba(0,0,0,1)]':
+            !card.isMatched && isGameStarted && !isGameComplete,
+          'rotate-1': index % 3 === 0,
+          '-rotate-1': index % 3 === 1,
+          'rotate-0': index % 3 === 2,
         }"
         :style="{
           width: `${cardSize}px`,
@@ -227,25 +237,43 @@ watch(difficulty, () => {
         }"
       >
         <span v-if="card.isFlipped || card.isMatched">{{ card.emoji }}</span>
-        <span v-else class="text-gray-400 dark:text-gray-500">?</span>
+        <span v-else class="text-black dark:text-black font-bold">?</span>
       </div>
     </div>
-
     <!-- Game complete message -->
     <div
       v-if="isGameComplete"
-      class="mt-4 p-4 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded text-center"
+      class="mt-4 p-6 bg-yellow-400 text-black font-bold rounded border-4 border-black shadow-[6px_6px_0_0_rgba(0,0,0,1)] transform rotate-1 text-center"
     >
-      <div class="font-bold text-lg">Congratulations!</div>
+      <div class="font-black text-xl">Congratulations! 🎉</div>
       <div>You completed the game in {{ formattedTime }} with {{ moves }} moves.</div>
     </div>
-
     <!-- Game instructions -->
-    <div v-if="!isGameStarted" class="mt-4 text-center text-gray-600 dark:text-gray-400 text-sm">
-      <p>Select a difficulty level and click "Start Game" to begin.</p>
-      <p>Match all pairs of emojis to win!</p>
+    <div v-if="!isGameStarted" class="mt-4 text-center text-black dark:text-white font-bold">
+      <p class="transform rotate-1">Select a difficulty level and click "Start Game" to begin.</p>
+      <p class="transform -rotate-1">Match all pairs of emojis to win!</p>
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+/* Neo-brutalism custom colors */
+.bg-cyan-400 {
+  background-color: #22d3ee;
+}
+
+.bg-orange-400 {
+  background-color: #fb923c;
+}
+
+.border-3 {
+  border-width: 3px;
+}
+
+/* Card flip animation */
+.transform {
+  transition-property: transform, box-shadow;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+</style>

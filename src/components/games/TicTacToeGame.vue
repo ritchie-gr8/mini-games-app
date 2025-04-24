@@ -187,59 +187,92 @@ const evaluateBoard = (boardState) => {
 </script>
 
 <template>
-  <div class="flex flex-col items-center p-4">
-    <h1 class="text-2xl font-bold mb-6">Tic Tac Toe</h1>
+  <div class="flex flex-col items-center p-6 gap-6">
+    <h1
+      class="text-3xl font-black text-black transform -rotate-2"
+      style="text-shadow: 3px 3px 0 #ff00aa"
+    >
+      TIC TAC TOE
+    </h1>
 
-    <div class="mb-4">
+    <div class="flex gap-2">
       <button
         v-for="level in ['Easy', 'Medium', 'Unbeatable']"
         :key="level"
-        class="px-3 py-1 mx-1 rounded cursor-pointer w-28"
+        @click="setDifficulty(level.toLowerCase())"
+        class="px-4 py-2 font-bold border-4 border-black shadow-[3px_3px_0_0_rgba(0,0,0,1)] transform transition-transform hover:translate-y-1"
         :class="
           difficulty === level.toLowerCase()
-            ? 'bg-yellow-400 text-gray-900'
-            : 'bg-gray-200 dark:bg-gray-700'
+            ? 'bg-yellow-400 rotate-2 shadow-[4px_4px_0_0_rgba(0,0,0,1)]'
+            : 'bg-gray-200 -rotate-1'
         "
-        @click="setDifficulty(level.toLowerCase())"
       >
         {{ level }}
       </button>
     </div>
 
-    <div class="status mb-4 h-6">
-      <span v-if="winner">
-        {{ winner === 'draw' ? "It's a draw!" : `${winner === 'X' ? 'You' : 'AI'} wins!` }}
-      </span>
-      <span v-else>
-        {{ currentPlayer === 'X' ? 'Your turn' : 'AI is thinking...' }}
+    <div
+      class="bg-yellow-400 p-3 border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] rotate-1"
+    >
+      <span class="font-black text-xl">
+        {{
+          winner
+            ? winner === 'draw'
+              ? 'DRAW!'
+              : `${winner === 'X' ? 'YOU WIN!' : 'AI WINS!'}`
+            : currentPlayer === 'X'
+              ? 'YOUR TURN'
+              : 'AI THINKING...'
+        }}
       </span>
     </div>
 
-    <div class="board grid grid-cols-3 gap-2 mb-6">
+    <div
+      class="grid grid-cols-3 gap-3 bg-pink-200 p-4 border-4 border-black shadow-[8px_8px_0_0_rgba(0,0,0,1)] rotate-1"
+    >
       <div
         v-for="(cell, index) in board"
         :key="index"
-        class="size-20 flex items-center justify-center cursor-pointer text-2xl font-bold bg-gray-200 dark:bg-gray-800 rounded"
+        class="size-20 flex items-center justify-center cursor-pointer text-4xl font-black border-4 border-black bg-white shadow-[3px_3px_0_0_rgba(0,0,0,1)] transform transition-transform hover:translate-y-1"
+        :class="{
+          'rotate-2': index % 3 === 0,
+          '-rotate-2': index % 3 === 1,
+          'rotate-1': index % 3 === 2,
+        }"
         @click="makeMove(index)"
       >
-        <span v-if="cell === 'X'" class="text-blue-500">X</span>
-        <span v-else-if="cell === 'O'" class="text-red-500">O</span>
+        <span v-if="cell === 'X'" class="text-blue-600" style="text-shadow: 2px 2px 0 #000">X</span>
+        <span v-else-if="cell === 'O'" class="text-red-600" style="text-shadow: 2px 2px 0 #000"
+          >O</span
+        >
       </div>
     </div>
 
     <button
-      class="cursor-pointer px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition"
       @click="resetGame"
+      class="px-6 py-2 bg-yellow-400 text-black font-bold rounded border-4 border-black transform rotate-1 hover:translate-y-1 transition-transform shadow-[5px_5px_0_0_rgba(0,0,0,1)]"
     >
-      New Game
+      NEW GAME
     </button>
 
-    <div class="mt-8">
-      <h2 class="text-xl font-semibold mb-2">Top Scores</h2>
-      <div class="grid grid-cols-2 gap-2">
-        <div>Wins: {{ playerStats.wins }}</div>
-        <div>Losses: {{ playerStats.losses }}</div>
-        <div>Draws: {{ playerStats.draws }}</div>
+    <div class="grid grid-cols-3 gap-4 mt-4">
+      <div
+        class="bg-green-400 p-3 border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] -rotate-1 text-center"
+      >
+        <div class="text-sm font-bold">WINS</div>
+        <div class="text-2xl font-black">{{ playerStats.wins }}</div>
+      </div>
+      <div
+        class="bg-red-400 p-3 border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] rotate-2 text-center"
+      >
+        <div class="text-sm font-bold">LOSSES</div>
+        <div class="text-2xl font-black">{{ playerStats.losses }}</div>
+      </div>
+      <div
+        class="bg-blue-400 p-3 border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] -rotate-2 text-center"
+      >
+        <div class="text-sm font-bold">DRAWS</div>
+        <div class="text-2xl font-black">{{ playerStats.draws }}</div>
       </div>
     </div>
   </div>
