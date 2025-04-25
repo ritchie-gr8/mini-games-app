@@ -29,11 +29,11 @@ const router = createRouter({
       name: 'tetris',
       component: () => import('../components/games/TetrisGame.vue'),
     },
-    // {
-    //   path: '/game/test',
-    //   name: 'test',
-    //   component: () => import('../components/games/TestGame.vue'),
-    // },
+    {
+      path: '/game/connect-four',
+      name: 'connect-four',
+      component: () => import('../components/games/ConnectFour.vue'),
+    },
   ],
 })
 
