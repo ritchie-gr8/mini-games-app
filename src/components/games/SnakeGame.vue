@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue'
+import BackButton from '../BackButton.vue'
 
 const cellSize = 20
 const gridSize = 15
@@ -145,6 +146,7 @@ onUnmounted(() => {
 
 <template>
   <div class="flex flex-col items-center gap-6 py-8">
+    <BackButton />
     <h2
       class="text-3xl font-black text-black transform -rotate-2"
       style="text-shadow: 3px 3px 0 #ff00aa"

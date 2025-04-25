@@ -25,8 +25,8 @@ const navigateToGame = (game) => {
       <div class="grid grid-cols-3 gap-6">
         <GameIcon icon="snake" :active="activeGame === 'snake'" @click="navigateToGame('snake')" />
         <GameIcon
-          icon="word"
-          :active="activeGame === 'word'"
+          icon="connect4"
+          :active="activeGame === 'connect-four'"
           @click="navigateToGame('connect-four')"
         />
         <GameIcon

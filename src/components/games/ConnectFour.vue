@@ -303,6 +303,12 @@ export default {
 
 <template>
   <div class="flex flex-col items-center p-4 font-mono">
+    <button
+      @click="$router.push('/')"
+      class="px-4 py-2 mb-4 bg-blue-400 text-black font-bold rounded border-4 border-black transform -rotate-1 hover:translate-y-1 transition-transform shadow-[5px_5px_0_0_rgba(0,0,0,1)] flex items-center gap-2 cursor-pointer"
+    >
+      <span class="text-xl">←</span> BACK
+    </button>
     <h2
       class="text-3xl font-black mb-6 text-black bg-pink-400 px-6 py-2 rounded-lg transform rotate-1 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
     >

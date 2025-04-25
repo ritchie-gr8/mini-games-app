@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { emojis } from '@/constant/emoji'
+import BackButton from '../BackButton.vue'
 
 const difficulties = {
   easy: { gridSize: 4, name: 'Easy' },
@@ -150,6 +151,7 @@ watch(difficulty, () => {
 
 <template>
   <div class="flex flex-col items-center gap-4 py-8 px-4">
+    <BackButton />
     <h2
       class="text-3xl font-black text-black transform -rotate-1"
       style="text-shadow: 3px 3px 0 #ff00aa"
@@ -163,7 +165,7 @@ watch(difficulty, () => {
           v-for="(config, key) in difficulties"
           :key="key"
           @click="changeDifficulty(key)"
-          class="px-4 py-2 rounded font-bold text-black border-3 border-black transform transition-transform hover:translate-y-1"
+          class="px-4 py-2 rounded font-bold text-black cursor-pointer border-3 border-black transform transition-transform hover:translate-y-1"
           :class="
             difficulty === key
               ? 'bg-pink-400 shadow-[4px_4px_0_0_rgba(0,0,0,1)] rotate-1'
@@ -175,7 +177,7 @@ watch(difficulty, () => {
       </div>
       <button
         @click="startGame"
-        class="px-6 py-2 bg-yellow-400 text-black font-bold rounded border-4 border-black transform rotate-1 hover:translate-y-1 transition-transform shadow-[5px_5px_0_0_rgba(0,0,0,1)]"
+        class="px-6 py-2 cursor-pointer bg-yellow-400 text-black font-bold rounded border-4 border-black transform rotate-1 hover:translate-y-1 transition-transform shadow-[5px_5px_0_0_rgba(0,0,0,1)]"
       >
         {{ isGameStarted && !isGameComplete ? 'Restart' : 'Start Game' }}
       </button>
@@ -249,7 +251,7 @@ watch(difficulty, () => {
       <div>You completed the game in {{ formattedTime }} with {{ moves }} moves.</div>
     </div>
     <!-- Game instructions -->
-    <div v-if="!isGameStarted" class="mt-4 text-center text-black dark:text-white font-bold">
+    <div v-if="!isGameStarted" class="mt-4 text-center text-black font-bold">
       <p class="transform rotate-1">Select a difficulty level and click "Start Game" to begin.</p>
       <p class="transform -rotate-1">Match all pairs of emojis to win!</p>
     </div>

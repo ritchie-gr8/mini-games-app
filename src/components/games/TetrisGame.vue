@@ -1,6 +1,7 @@
 <script setup>
 import { CELL_SIZE, EMPTY_CELL, GRID_HEIGHT, GRID_WIDTH, TETROMINOS } from '@/constant/tetris'
 import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
+import BackButton from '../BackButton.vue'
 
 const gameBoard = ref(null)
 const grid = ref([])
@@ -288,9 +289,7 @@ const hardDrop = async () => {
 const handleKeydown = (e) => {
   if (!isGameStarted.value || isGameOver.value) return
 
-  if (e.key === ' ') {
-    e.preventDefault()
-  }
+  e.preventDefault()
 
   switch (e.key) {
     case 'ArrowLeft':
@@ -327,6 +326,7 @@ onUnmounted(() => {
 
 <template>
   <div class="flex flex-col items-center gap-4 py-8 px-4">
+    <BackButton />
     <h2
       class="text-3xl font-black text-black rotate-1 transform"
       style="text-shadow: 3px 3px 0 #ff00aa"
@@ -338,7 +338,7 @@ onUnmounted(() => {
     <div class="flex gap-4 mb-4">
       <button
         @click="startGame"
-        class="px-6 py-3 bg-yellow-400 text-black font-bold rounded-lg border-4 border-black transform rotate-1 hover:translate-y-1 transition-transform shadow-[6px_6px_0_0_rgba(0,0,0,1)]"
+        class="px-6 py-3 bg-yellow-400 cursor-pointer text-black font-bold rounded-lg border-4 border-black transform rotate-1 hover:translate-y-1 transition-transform shadow-[6px_6px_0_0_rgba(0,0,0,1)]"
       >
         {{ isGameStarted ? 'Restart' : 'Start Game' }}
       </button>
@@ -347,7 +347,7 @@ onUnmounted(() => {
     <!-- Game instructions -->
     <div
       v-if="!isGameStarted"
-      class="hidden sm:block mt-4 text-center text-black dark:text-white text-sm font-bold"
+      class="hidden sm:block mt-4 text-center text-black text-sm font-bold"
     >
       <p class="rotate-1 transform">Press Start to begin the game</p>
       <p class="mt-2 -rotate-1 transform">Controls:</p>
@@ -358,7 +358,7 @@ onUnmounted(() => {
     </div>
 
     <!-- Game stats -->
-    <div class="flex gap-6 text-center">
+    <div class="flex gap-6 text-center text-black">
       <div
         class="bg-pink-400 p-3 border-4 border-black rounded-lg shadow-[4px_4px_0_0_rgba(0,0,0,1)] rotate-1 transform"
       >
@@ -415,7 +415,7 @@ onUnmounted(() => {
 
       <!-- Game board -->
       <div
-        class="relative border-4 border-black dark:border-black bg-gray-100 dark:bg-gray-800 focus:outline-none shadow-[8px_8px_0_0_rgba(0,0,0,1)] transform"
+        class="relative border-4 border-black dark:border-black bg-gray-100 dark:bg-gray-800 focus:outline-none shadow-[8px_8px_0_0_rgba(0,0,0,1)]"
         :style="`width: ${GRID_WIDTH * CELL_SIZE}px; height: ${GRID_HEIGHT * CELL_SIZE}px;`"
         tabindex="0"
         ref="gameBoard"
@@ -442,9 +442,9 @@ onUnmounted(() => {
             :key="`ghost-row-${y}`"
             class="absolute flex pointer-events-none"
             :style="`
-            top: ${(ghostPosition.y + y) * CELL_SIZE}px;
-            left: ${ghostPosition.x * CELL_SIZE}px;
-          `"
+              top: ${(ghostPosition.y + y) * CELL_SIZE}px;
+              left: ${ghostPosition.x * CELL_SIZE}px;
+            `"
           >
             <div
               v-for="(cell, x) in row"
@@ -474,10 +474,10 @@ onUnmounted(() => {
               :key="`piece-cell-${x}-${y}`"
               :class="cell !== EMPTY_CELL ? [currentPiece.color, 'border-2 border-black'] : ''"
               :style="`
-            width: ${CELL_SIZE}px;
-            height: ${CELL_SIZE}px;
-            visibility: ${cell !== EMPTY_CELL ? 'visible' : 'hidden'};
-          `"
+                width: ${CELL_SIZE}px;
+                height: ${CELL_SIZE}px;
+                visibility: ${cell !== EMPTY_CELL ? 'visible' : 'hidden'};
+              `"
             ></div>
           </div>
         </div>
@@ -515,11 +515,11 @@ onUnmounted(() => {
               :key="`next-row-${y}`"
               class="absolute flex border-none"
               :style="`
-            top: ${y * 25}%;
-            left: ${(4 - nextPiece.shape[0].length) * 12.5}%;
-            width: 100%;
-            height: 100%;
-          `"
+                top: ${y * 25}%;
+                left: ${(4 - nextPiece.shape[0].length) * 12.5}%;
+                width: 100%;
+                height: 100%;
+              `"
             >
               <div
                 v-for="(cell, x) in row"

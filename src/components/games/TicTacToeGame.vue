@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import BackButton from '../BackButton.vue'
 
 const board = ref(Array(9).fill(null))
 const currentPlayer = ref('X')
@@ -188,6 +189,7 @@ const evaluateBoard = (boardState) => {
 
 <template>
   <div class="flex flex-col items-center p-6 gap-6">
+    <BackButton />
     <h1
       class="text-3xl font-black text-black transform -rotate-2"
       style="text-shadow: 3px 3px 0 #ff00aa"
@@ -200,7 +202,7 @@ const evaluateBoard = (boardState) => {
         v-for="level in ['Easy', 'Medium', 'Unbeatable']"
         :key="level"
         @click="setDifficulty(level.toLowerCase())"
-        class="px-4 py-2 font-bold border-4 border-black shadow-[3px_3px_0_0_rgba(0,0,0,1)] transform transition-transform hover:translate-y-1"
+        class="px-4 py-2 font-bold border-4 text-black border-black shadow-[3px_3px_0_0_rgba(0,0,0,1)] transform transition-transform hover:translate-y-1"
         :class="
           difficulty === level.toLowerCase()
             ? 'bg-yellow-400 rotate-2 shadow-[4px_4px_0_0_rgba(0,0,0,1)]'
@@ -214,7 +216,7 @@ const evaluateBoard = (boardState) => {
     <div
       class="bg-yellow-400 p-3 border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] rotate-1"
     >
-      <span class="font-black text-xl">
+      <span class="font-black text-xl text-black">
         {{
           winner
             ? winner === 'draw'
@@ -255,7 +257,7 @@ const evaluateBoard = (boardState) => {
       NEW GAME
     </button>
 
-    <div class="grid grid-cols-3 gap-4 mt-4">
+    <div class="grid grid-cols-3 gap-4 mt-4 text-black">
       <div
         class="bg-green-400 p-3 border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] -rotate-1 text-center"
       >
