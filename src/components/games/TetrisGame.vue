@@ -536,36 +536,41 @@ onUnmounted(() => {
     </div>
     <!-- Mobile controls -->
     <div class="grid grid-cols-3 gap-2 w-48 mt-4 md:hidden">
-      <div></div>
+      <button
+        @click="holdCurrentPiece"
+        class="cursor-pointer p-3 bg-red-400 text-black text-xs font-bold rounded border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-y-1 transition-transform"
+      >
+        Hold
+      </button>
       <button
         @click="rotatePiece"
-        class="p-3 bg-pink-400 text-black font-bold rounded border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-y-1 transition-transform"
+        class="cursor-pointer p-3 bg-pink-400 text-black font-bold rounded border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-y-1 transition-transform"
       >
         ↻
       </button>
       <div></div>
       <button
         @click="moveLeft"
-        class="p-3 bg-blue-400 text-black font-bold rounded border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-y-1 transition-transform"
+        class="cursor-pointer p-3 bg-blue-400 text-black font-bold rounded border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-y-1 transition-transform"
       >
         ←
       </button>
       <button
         @click="hardDrop"
-        class="p-3 bg-yellow-400 text-black font-bold rounded border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-y-1 transition-transform"
+        class="cursor-pointer p-3 bg-yellow-400 text-black font-bold rounded border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-y-1 transition-transform"
       >
         ↓↓
       </button>
       <button
         @click="moveRight"
-        class="p-3 bg-green-400 text-black font-bold rounded border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-y-1 transition-transform"
+        class="cursor-pointer p-3 bg-green-400 text-black font-bold rounded border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-y-1 transition-transform"
       >
         →
       </button>
       <div></div>
       <button
         @click="moveDown"
-        class="p-3 bg-purple-400 text-black font-bold rounded border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-y-1 transition-transform"
+        class="cursor-pointer p-3 bg-purple-400 text-black font-bold rounded border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-y-1 transition-transform"
       >
         ↓
       </button>
