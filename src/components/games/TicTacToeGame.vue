@@ -7,6 +7,7 @@ const currentPlayer = ref('X')
 const winner = ref(null)
 const difficulty = ref('medium')
 const gameActive = ref(true)
+const playerTurn = ref(true)
 const playerStats = ref({
   wins: 0,
   losses: 0,
@@ -23,10 +24,11 @@ const resetGame = () => {
   currentPlayer.value = 'X'
   winner.value = null
   gameActive.value = true
+  playerTurn.value = true
 }
 
 const makeMove = (index) => {
-  if (board.value[index] !== null || !gameActive.value) return
+  if (board.value[index] !== null || !gameActive.value || !playerTurn.value) return
 
   board.value[index] = currentPlayer.value
   checkGameState()
@@ -51,6 +53,7 @@ const checkGameState = () => {
   }
 
   currentPlayer.value = currentPlayer.value === 'X' ? 'O' : 'X'
+  playerTurn.value = currentPlayer.value === 'X'
 
   if (currentPlayer.value === 'O') {
     aiMove()
@@ -93,12 +96,14 @@ const hasEmptyCells = (boardState) => {
 const aiMove = () => {
   if (!gameActive.value || currentPlayer.value !== 'O') return
 
+  playerTurn.value = false
   setTimeout(() => {
     const move = findBestMove()
     if (move !== -1) {
       board.value[move] = 'O'
       checkGameState()
     }
+    playerTurn.value = true
   }, 500)
 }
 
@@ -202,7 +207,7 @@ const evaluateBoard = (boardState) => {
         v-for="level in ['Easy', 'Medium', 'Unbeatable']"
         :key="level"
         @click="setDifficulty(level.toLowerCase())"
-        class="px-4 py-2 font-bold border-4 text-black border-black shadow-[3px_3px_0_0_rgba(0,0,0,1)] transform transition-transform hover:translate-y-1"
+        class="px-4 py-2 cursor-pointer font-bold border-4 text-black border-black shadow-[3px_3px_0_0_rgba(0,0,0,1)] transform transition-transform hover:translate-y-1"
         :class="
           difficulty === level.toLowerCase()
             ? 'bg-yellow-400 rotate-2 shadow-[4px_4px_0_0_rgba(0,0,0,1)]'
