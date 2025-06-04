@@ -102,11 +102,25 @@ const changeDirection = (newDirection) => {
   nextDirection.value = newDirection
 }
 
+const showGameOver = ref(false)
+const finalScore = ref(0)
+
 const gameOver = () => {
   isRunning.value = false
   clearInterval(gameInterval.value)
+  finalScore.value = score.value
+  showGameOver.value = true
+}
+
+const handleClose = () => {
+  showGameOver.value = false
   resetGame()
-  alert('Game Over!')
+}
+
+const handleRestart = () => {
+  showGameOver.value = false
+  resetGame()
+  startGame()
 }
 
 const handleKeydown = (e) => {
@@ -184,18 +198,91 @@ onUnmounted(() => {
       ></div>
     </div>
 
-    <div class="flex items-center gap-6">
-      <div
-        class="bg-yellow-400 px-4 py-2 border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] rotate-1"
-      >
-        <span class="font-black text-xl">SCORE: {{ score }}</span>
+    <div class="flex flex-col items-center gap-6 w-full max-w-md">
+      <div class="flex items-center gap-6">
+        <div
+          class="bg-yellow-400 px-4 py-2 border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] rotate-1"
+        >
+          <span class="text-black font-bold text-xl">SCORE: {{ score }}</span>
+        </div>
+        <button
+          @click="startGame"
+          class="cursor-pointer px-6 py-2 bg-yellow-400 text-black font-bold rounded border-4 border-black transform rotate-1 hover:translate-y-1 transition-transform shadow-[5px_5px_0_0_rgba(0,0,0,1)]"
+        >
+          {{ isRunning ? 'RESTART' : 'START' }}
+        </button>
       </div>
-      <button
-        @click="startGame"
-        class="px-6 py-2 bg-yellow-400 text-black font-bold rounded border-4 border-black transform rotate-1 hover:translate-y-1 transition-transform shadow-[5px_5px_0_0_rgba(0,0,0,1)]"
+
+      <div
+        class="hidden md:block bg-yellow-100 text-black p-4 border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] w-full"
       >
-        {{ isRunning ? 'RESTART' : 'START' }}
-      </button>
+        <h3 class="font-black text-lg mb-2 text-center">HOW TO PLAY</h3>
+        <div class="text-center">
+          <p class="font-bold">Keyboard Controls:</p>
+          <ul class="pl-5 space-y-1">
+            <li>↑ or W: Move Up</li>
+            <li>↓ or S: Move Down</li>
+            <li>← or A: Move Left</li>
+            <li>→ or D: Move Right</li>
+            <li>Space: Start/Restart</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Game Over Modal -->
+    <div
+      v-if="showGameOver"
+      class="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4"
+    >
+      <div
+        class="relative text-gray-100 bg-yellow-400 p-6 border-4 border-black shadow-[8px_8px_0_0_rgba(0,0,0,1)] max-w-md w-full mx-4"
+      >
+        <button
+          @click="handleClose"
+          class="absolute cursor-pointer text-black top-2 right-3 text-2xl font-bold hover:scale-110 transition-transform"
+          aria-label="Close"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-x-icon lucide-x"
+          >
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+          </svg>
+        </button>
+        <h2
+          class="text-3xl text-black font-bold text-center mb-4"
+          style="text-shadow: 3px 3px 0 #ff00aa"
+        >
+          GAME OVER
+        </h2>
+        <p class="text-xl text-center mb-6 text-black">
+          Your score: <span class="font-bold">{{ finalScore }}</span>
+        </p>
+        <div class="flex justify-center gap-4">
+          <button
+            @click="handleClose"
+            class="cursor-pointer px-6 py-2 bg-gray-200 text-black font-bold rounded border-4 border-black transform hover:translate-y-1 transition-transform shadow-[5px_5px_0_0_rgba(0,0,0,1)] hover:bg-gray-300"
+          >
+            CLOSE
+          </button>
+          <button
+            @click="handleRestart"
+            class="cursor-pointer px-6 py-2 bg-yellow-400 text-black font-bold rounded border-4 border-black transform hover:translate-y-1 transition-transform shadow-[5px_5px_0_0_rgba(0,0,0,1)] hover:bg-yellow-500"
+          >
+            PLAY AGAIN
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- Mobile controls -->
